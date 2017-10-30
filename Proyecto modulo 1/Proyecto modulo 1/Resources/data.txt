@@ -6,8 +6,5 @@ COD - Action - 2017 -PS4, XBOXONE, PC,
 Call - Action - 1990 -PS4, XBOXONE, PC, 
 
 *+*+*+*
-COD-Muertes-
-Jorongo=2000, Minitanke=300, Tiros-
-Jorongo=2000, 
-Call-Muertes-
-Jorongo=2000, Minitanke=300, 
+COD-Muertes-Jorongo=2000, Minitanke=300, Tiros-Jorongo=2000, 
+Call-Muertes-Jorongo=2000, Minitanke=300, 

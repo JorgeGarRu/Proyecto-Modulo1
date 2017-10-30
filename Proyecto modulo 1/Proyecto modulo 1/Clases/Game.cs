@@ -76,8 +76,11 @@ namespace Proyecto_modulo_1
             this.name = gamesplit[0];
             this.genre = (Genres)int.Parse(gamesplit[1]);
             this.releaseDate = int.Parse(gamesplit[2]);
-            //platforms = Platforms.ToString(gamesplit[3]);
+            //this.platforms = (Platforms)int.Parse(gamesplit[3]);
             string[] platformsSplit = gamesplit[3].Split(',');
+            //Platforms = new list<Platforms>()
+            //string platforms
+            
 
           
         }

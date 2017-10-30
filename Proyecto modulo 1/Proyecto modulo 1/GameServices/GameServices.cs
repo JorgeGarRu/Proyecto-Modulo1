@@ -13,7 +13,7 @@ namespace Proyecto_modulo_1
         //Propiedades
         #region propiedades
 
-        private static List<Player> players;
+        private static List<Player> players=new List<Player>();
 
         public static List<Player> Players
         {
@@ -36,7 +36,7 @@ namespace Proyecto_modulo_1
         //Funciones
         #region Funciones
 
-        public static void Export()
+        public static void Export(string path)
         {
             //Convertir los jugadores en string
             string playerData = ConvertPlayerToString();
@@ -47,7 +47,7 @@ namespace Proyecto_modulo_1
             //Separarlos mediante el simbolo *+*+*+*
             try
             {
-                StreamWriter file = File.CreateText(PATH);
+                StreamWriter file = File.CreateText(path);
                 string completeData = playerData + "\n*+*+*+*\n" + gameData + "\n*+*+*+*\n" + scoreData;
                 file.Write(completeData);
                 file.Close();
@@ -62,6 +62,8 @@ namespace Proyecto_modulo_1
 
         public static void Import()
         {
+
+
 
         }
         #endregion
@@ -85,9 +87,27 @@ namespace Proyecto_modulo_1
 
         public static int NumScoresRankingGame(string nameGame, string nameRanking)
         {
+            //TODO seguir haciendo
             int numScores = 0;
             Game game = GetGameByName(nameGame);
             Ranking ranking = GetRankingByName(nameRanking);
+            foreach(Game g in Games)
+            {
+                if(g == game)
+                {
+                    foreach(Ranking r in g.Rankings.Values)
+                    {
+                        if (r == ranking)
+                        {
+                            numScores=r.Scores.Count;
+                            break;
+                        }
+                       
+                    }
+                    
+                }
+             
+            }
 
             //TODO terminar
             return numScores;
@@ -122,7 +142,7 @@ namespace Proyecto_modulo_1
                     Ranking ranking = null;
                     if (ranking == null || r.Scores.Count > ranking.Scores.Count)
                     {
-                        ranking = r;
+                        ranking = r ;
                         game = g;
                     }
 
@@ -287,7 +307,61 @@ namespace Proyecto_modulo_1
             }
             return data;
         }
-        
+
         #endregion
+
+        //Parte 4 introducir comandos
+        #region Parte 4 Introducir comandos
+        public static void Comands() {
+
+            while (true)
+            {
+                Console.WriteLine("---- Import.\n---- Export.\n---- Oldest. \n---- ScoreCount (gameName) (rankingName)\n---- gamesCountByGenren(gameName)\n---- gamesByPlayer.");
+                Console.Write( "Introduce un comando: ");
+            string frase = Console.ReadLine();
+            frase = frase.ToLower();
+            string[] splitted = frase.Split(' ');
+            string comand = splitted[0];
+            string valorNameGame = "";
+            string valorNameRanking = "";
+            string valorGenre = "";
+            if (splitted.Length > 1)
+            {
+                valorNameGame = splitted[1];
+                valorGenre = splitted[1];
+                valorNameRanking = splitted[2];
+            }
+            switch (comand)
+            {
+                case "Import":
+                    GameServices.Import();
+                    break;
+
+                case "Export":
+                        string path = "../../Resources/GamesService.txt";
+                    GameServices.Export(path);
+                    break;
+
+                case "ScoreCount":
+                    GameServices.NumScoresRankingGame(valorNameGame,valorNameRanking);
+                    break;
+
+                //case "gamesCountByGenre":
+                    
+                //    GameServices.NumGameGenre(valorGenre);
+                //    break;
+
+                case "gamesByPlayer":
+                    GameServices.GamesforPlayer();
+                    break;
+                default:
+                    break;
+            }
+
+            }
+
+        }
+
+#endregion
     }
 }
