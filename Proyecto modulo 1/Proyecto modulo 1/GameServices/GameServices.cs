@@ -13,20 +13,20 @@ namespace Proyecto_modulo_1
         //Propiedades
         #region propiedades
 
-        private static List<Player> players=new List<Player>();
+        private static List<Player> players = new List<Player>();
 
         public static List<Player> Players
         {
             get { return players; }
-            set { players = value; }
+            //set { players = value; }
         }
 
-        private static List<Game> games;
+        private static List<Game> games = new List<Game>();
 
         public static List<Game> Games
         {
             get { return games; }
-            set { games = value; }
+
         }
 
 
@@ -85,34 +85,29 @@ namespace Proyecto_modulo_1
             return res;
         }
 
-        public static int NumScoresRankingGame(string nameGame, string nameRanking)
+        public static int NumScoresRankingGame(string nameGame, string nameRanking)//metodo que devuelve el numero de puntuaciones del ranking de un determinado juego
+
         {
-            //TODO seguir haciendo
             int numScores = 0;
             Game game = GetGameByName(nameGame);
-            Ranking ranking = GetRankingByName(nameRanking);
             foreach(Game g in Games)
             {
-                if(g == game)
+               foreach(Ranking r in g.Rankings.Values)
                 {
-                    foreach(Ranking r in g.Rankings.Values)
+                    if(r.Name == nameRanking)
                     {
-                        if (r == ranking)
-                        {
-                            numScores=r.Scores.Count;
-                            break;
-                        }
-                       
+                        numScores++;
                     }
                     
                 }
-             
+
             }
-
-            //TODO terminar
             return numScores;
-
         }
+
+            
+
+        
 
         public static string NumGameGenre(Genres genre)
         {
@@ -136,19 +131,11 @@ namespace Proyecto_modulo_1
             foreach (Game g in Games)
             {
 
-
-                foreach (Ranking r in g.Rankings.Values)
+                if (NumScoreGame(g) > NumScoreGame(game))
                 {
-                    Ranking ranking = null;
-                    if (ranking == null || r.Scores.Count > ranking.Scores.Count)
-                    {
-                        ranking = r ;
-                        game = g;
-                    }
-
-
-
+                    game = g;
                 }
+               
 
 
             }
@@ -169,7 +156,7 @@ namespace Proyecto_modulo_1
             return res;
         }//devuelve si existe un juego que contenga en su nombre la palara "Call"
 
-        public static string GamesPlayer(string namePlayer)//devuelve los juegos que ha jugado el jugador introducido
+        public static void GamesPlayer(string namePlayer)//devuelve los juegos que ha jugado el jugador introducido
         {
             //TODO no funciona,arreglar
             List<Game> listGame = new List<Game>();
@@ -187,17 +174,29 @@ namespace Proyecto_modulo_1
                     }
                 }
             }
-            string s = "Games: " + listGame.ToString();
-            return s;
+
+            PrintListGame(listGame);
+            
+           
         }
 
         public static string GamesforPlayer()//devuelve los juegos que ha jugado cada jugador
 
         {
-            //TODO Terminar de hacer
-            string s = "";
-            return s;
-
+            string data = "";
+            string playerData = "";
+            string gameData = "";
+            foreach(Player p in Players)
+            {
+                playerData += "-> " + p.NickName + ": \n=======>";
+                foreach(Game g in Games)
+                {
+                    gameData+= g.Name+","; 
+                }
+                playerData += gameData+"\n";
+            }
+            data += playerData + "\n";
+            return data;
         }
 
 
@@ -206,6 +205,45 @@ namespace Proyecto_modulo_1
 
         //Funcionaes auxiliares
         #region Funciones auxiliares
+
+            public static void PrintListGame(List<Game> games)//metodo que imprime por pantalla una lista de juegos
+        {
+            foreach(Game g in games)
+            {
+                Console.WriteLine(g);
+            }
+        }
+            public static int NumScoreGame(Game game)//metodo que devuelve el numero de puntuaciones de un juego dado
+        {
+            int numScore = 0;
+            foreach(Game g in Games)
+            {
+                if(g == game)
+                {
+                    foreach(Ranking r in g.Rankings.Values)
+                    {
+                        numScore += r.Scores.Count;
+                    }
+                }
+            }
+            return numScore;
+        }
+
+            public static List<Game> AddGame(Game game)//metodo para añadir juegos a la lista de juegos
+        {
+            //List<Game> Games = new List<Game>();
+            Game ga = null;
+           foreach(Game g in Games)
+            {
+                if(g == game)
+                {
+                    ga = g;
+                    Games.Add(ga);
+                }
+                break;
+            }
+            return Games;
+        }
 
         private static Game GetGameByName(string nameGame)
         {
@@ -251,6 +289,15 @@ namespace Proyecto_modulo_1
             }
             return player;
         }
+
+        //private static Genres GetGenreByName(string nameGenre)//devuelve un genero dado su nombre
+        //{
+        //    Genres genre = 0;
+        //    foreach(Genres g in Enum.GetValues
+        //    {
+
+        //    }
+        //}
 
         private static string ConvertPlayerToString() //metodo para convertir los jugadores en string para exportarlo
         {
@@ -308,15 +355,18 @@ namespace Proyecto_modulo_1
             return data;
         }
 
+      
+
         #endregion
 
         //Parte 4 introducir comandos
         #region Parte 4 Introducir comandos
         public static void Comands() {
 
-            while (true)
+            bool res = true;
+            while (res)
             {
-                Console.WriteLine("---- Import.\n---- Export.\n---- Oldest. \n---- ScoreCount (gameName) (rankingName)\n---- gamesCountByGenren(gameName)\n---- gamesByPlayer.");
+                Console.WriteLine("---- Import.\n---- Export.\n---- Oldest. \n---- ScoreCount (gameName) (rankingName)\n---- gamesCountByGenren(gameName)\n---- gamesByPlayer.\n---- Salir");
                 Console.Write( "Introduce un comando: ");
             string frase = Console.ReadLine();
             frase = frase.ToLower();
@@ -324,13 +374,19 @@ namespace Proyecto_modulo_1
             string comand = splitted[0];
             string valorNameGame = "";
             string valorNameRanking = "";
-            string valorGenre = "";
-            if (splitted.Length > 1)
+            string valorNameGenre = "";
+
+                if (splitted.Length == 3)
             {
                 valorNameGame = splitted[1];
-                valorGenre = splitted[1];
+               
                 valorNameRanking = splitted[2];
             }
+
+                if (splitted.Length == 2)
+                {
+                    valorNameGenre = splitted[1];
+                }
             switch (comand)
             {
                 case "Import":
@@ -342,18 +398,26 @@ namespace Proyecto_modulo_1
                     GameServices.Export(path);
                     break;
 
+                    case "Oldest":
+                        Console.WriteLine(GameServices.OldestGame());
+                        break;
                 case "ScoreCount":
-                    GameServices.NumScoresRankingGame(valorNameGame,valorNameRanking);
+                        Console.WriteLine(GameServices.NumScoresRankingGame(valorNameGame, valorNameRanking)); 
                     break;
 
-                //case "gamesCountByGenre":
-                    
-                //    GameServices.NumGameGenre(valorGenre);
-                //    break;
+                    //case "gamesCountByGenre":
 
-                case "gamesByPlayer":
+                    //    GameServices.NumGameGenre(valorNameGenre);
+                    //    break;
+
+                    case "gamesByPlayer":
                     GameServices.GamesforPlayer();
                     break;
+
+                    case "Salir":
+                        res = false;
+                        break;
+
                 default:
                     break;
             }
