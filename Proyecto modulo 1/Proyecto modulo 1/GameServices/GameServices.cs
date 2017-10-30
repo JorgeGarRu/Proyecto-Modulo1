@@ -395,19 +395,19 @@ namespace Proyecto_modulo_1
             switch (comand)
             {
                 case "import":
-                    GameServices.Import();
+                    Import();
                     break;
 
                 case "export":
                         string path = "../../Resources/GamesService.txt";
-                    GameServices.Export(path);
+                    Export(path);
                     break;
 
                     case "oldest":
                         Console.WriteLine(OldestGame());
                         break;
                 case "scorecount":
-                        Console.WriteLine(GameServices.NumScoresRankingGame(valorNameGame, valorNameRanking)); 
+                        Console.WriteLine(NumScoresRankingGame(valorNameGame, valorNameRanking)); 
                     break;
 
                     //case "gamesCountByGenre":
@@ -416,7 +416,7 @@ namespace Proyecto_modulo_1
                     //    break;
 
                     case "gamesbyplayer":
-                    GameServices.GamesforPlayer();
+                    GamesforPlayer();
                     break;
 
                     case "salir":
