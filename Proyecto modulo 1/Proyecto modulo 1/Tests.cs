@@ -57,8 +57,8 @@ namespace Proyecto_modulo_1
             List<Score> lista1 = new List<Score>() { s1, s2 };
             List<Score> lista2 = new List<Score>() { s3 };
 
-            Ranking r1 = new Ranking("Muertes", lista1);
-            Ranking r2 = new Ranking("Tiros", lista2);
+            Ranking r1 = new Ranking("muertes", lista1);
+            Ranking r2 = new Ranking("tiros", lista2);
 
             Dictionary<Platforms, Ranking> d1 = new Dictionary<Platforms, Ranking>();
 
@@ -71,11 +71,11 @@ namespace Proyecto_modulo_1
             d2.Add(Platforms.PS4, r1);
             d2.Add(Platforms.XBOXONE, r2);
 
-            Game juego1 = new Game("COD", Genres.Action, Plat1, 2017, d1);
+            Game juego1 = new Game("cod", Genres.Action, Plat1, 2017, d1);
 
 
 
-            Game juego2 = new Game("Call", Genres.Action, Plat1, 1990, d2);
+            Game juego2 = new Game("call", Genres.Action, Plat1, 1990, d2);
 
             GameServices.Games.Add(juego1);
             GameServices.Games.Add(juego2);
@@ -85,7 +85,7 @@ namespace Proyecto_modulo_1
             GameServices.Players.Add(p3);
 
             ////Console.WriteLine(GameServices.OldestGame()); //Funciona
-            ////Console.WriteLine(GameServices.NumGameGenre(Genres.Action));//Funciona
+            //Console.WriteLine(GameServices.NumGameGenre("Simulation"));//Funciona
             ////Console.WriteLine(GameServices.GameMoreNumScore());//funciona
             ////Console.WriteLine(GameServices.NumScoresRankingGame("COD","Muertes"));//Funciona
             ////Console.WriteLine(GameServices.ExistGameWithNameCall());//Funciona

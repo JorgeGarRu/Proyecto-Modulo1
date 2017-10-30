@@ -109,18 +109,19 @@ namespace Proyecto_modulo_1
 
         
 
-        public static string NumGameGenre(Genres genre)
+        public static string NumGameGenre(string nameGenre)
         {
             int numGames = 0;
+            Genres ge = GetGenreByName(nameGenre);
             string s = "";
             foreach (Game g in Games)
             {
-                if (g.Genre == genre)
+                if (g.Genre == ge)
                 {
                     numGames++;
                 }
             }
-            s = string.Format("Hay {0} juegos de {1}", numGames, genre);
+            s = string.Format("Hay {0} juegos de {1}", numGames, ge);
             return s;
         }//devuelve el numero de juegos de un determinado genero
 
@@ -290,19 +291,21 @@ namespace Proyecto_modulo_1
             return player;
         }
 
-        //private static Genres GetGenreByName(string nameGenre)//devuelve un genero dado su nombre
-        //{
-        //    Genres genre = 0;
-        //    foreach (Genres g in Enum.GetValues(typeof(Genres))
-        //    {
-        //       if()
-        //        {
-        
-        //        }
-        //    }
+        private static Genres GetGenreByName(string nameGenre)//devuelve un genero dado su nombre
+        {
+            Genres genre = 0;
+           Genres ge = (Genres)Enum.Parse(typeof(Genres),nameGenre);//pasar de string a enum
+           
+            foreach (Genres g in Enum.GetValues(typeof(Genres)))
+            {
+                if (g == ge)
+                {
+                    genre = g;
+                }
+            }
 
-        //    return genre;
-        //}
+            return genre;
+        }
 
         private static string ConvertPlayerToString() //metodo para convertir los jugadores en string para exportarlo
         {
@@ -371,7 +374,7 @@ namespace Proyecto_modulo_1
             bool res = true;
             while (res)
             {
-                Console.WriteLine("---- Import.\n---- Export.\n---- Oldest. \n---- ScoreCount (gameName) (rankingName)\n---- gamesCountByGenren(gameName)\n---- gamesByPlayer.\n---- Salir");
+                Console.WriteLine("---- Import.\n---- Export.\n---- Oldest. \n---- ScoreCount (gameName) (rankingName)\n---- gamesCountByGenre (gameName)\n---- gamesByPlayer.\n---- Salir");
                 Console.Write( "Introduce un comando: ");
             string frase = Console.ReadLine();
             frase = frase.ToLower();
@@ -395,12 +398,13 @@ namespace Proyecto_modulo_1
             switch (comand)
             {
                 case "import":
-                    Import();
+                        GameServices.Import();
+                    
                     break;
 
                 case "export":
                         string path = "../../Resources/GamesService.txt";
-                    Export(path);
+                        GameServices.Export(path);     
                     break;
 
                     case "oldest":
@@ -410,13 +414,13 @@ namespace Proyecto_modulo_1
                         Console.WriteLine(NumScoresRankingGame(valorNameGame, valorNameRanking)); 
                     break;
 
-                    //case "gamesCountByGenre":
+                    case "gamescountbygenre":
 
-                    //    GameServices.NumGameGenre(valorNameGenre);
-                    //    break;
+                        GameServices.NumGameGenre(valorNameGenre);
+                        break;
 
                     case "gamesbyplayer":
-                    GamesforPlayer();
+                        GameServices.GamesforPlayer(); 
                     break;
 
                     case "salir":
