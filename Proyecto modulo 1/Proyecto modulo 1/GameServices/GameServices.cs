@@ -293,10 +293,15 @@ namespace Proyecto_modulo_1
         //private static Genres GetGenreByName(string nameGenre)//devuelve un genero dado su nombre
         //{
         //    Genres genre = 0;
-        //    foreach(Genres g in Enum.GetValues
+        //    foreach (Genres g in Enum.GetValues(typeof(Genres))
         //    {
-
+        //       if()
+        //        {
+        
+        //        }
         //    }
+
+        //    return genre;
         //}
 
         private static string ConvertPlayerToString() //metodo para convertir los jugadores en string para exportarlo
@@ -389,19 +394,19 @@ namespace Proyecto_modulo_1
                 }
             switch (comand)
             {
-                case "Import":
+                case "import":
                     GameServices.Import();
                     break;
 
-                case "Export":
+                case "export":
                         string path = "../../Resources/GamesService.txt";
                     GameServices.Export(path);
                     break;
 
-                    case "Oldest":
-                        Console.WriteLine(GameServices.OldestGame());
+                    case "oldest":
+                        Console.WriteLine(OldestGame());
                         break;
-                case "ScoreCount":
+                case "scorecount":
                         Console.WriteLine(GameServices.NumScoresRankingGame(valorNameGame, valorNameRanking)); 
                     break;
 
@@ -410,12 +415,13 @@ namespace Proyecto_modulo_1
                     //    GameServices.NumGameGenre(valorNameGenre);
                     //    break;
 
-                    case "gamesByPlayer":
+                    case "gamesbyplayer":
                     GameServices.GamesforPlayer();
                     break;
 
-                    case "Salir":
+                    case "salir":
                         res = false;
+                        
                         break;
 
                 default:
